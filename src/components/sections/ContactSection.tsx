@@ -1,0 +1,10 @@
+import { Clock3, MapPin, MessageCircle, Phone } from 'lucide-react'
+import { business } from '@/content/business'
+import { contactChannels } from '@/content/contact'
+import { Container } from '@/components/shared/Container'
+import { SectionHeading } from '@/components/shared/SectionHeading'
+
+const icons = { phone: Phone, messaging: MessageCircle, email: MessageCircle, map: MapPin, social: MessageCircle }
+export function ContactSection() { const channels = contactChannels.filter((channel) => channel.active)
+ return <section id="contato" className="section contact-section"><Container><div className="contact-panel"><div className="contact-copy"><SectionHeading eyebrow="Vamos conversar?" title="O próximo passo começa com uma conversa." description="Entre em contato para conhecer os serviços, confirmar disponibilidade ou solicitar um horário. Agendamentos dependem de confirmação."/><div className="contact-details">{business.serviceArea && <p><MapPin/><span>{business.serviceArea}</span></p>}{business.address && <p><MapPin/><span>{[business.address.streetAddress, business.address.addressLocality, business.address.addressRegion].filter(Boolean).join(', ')}</span></p>}{business.openingHours?.map((hours) => <p key={hours.days}><Clock3/><span>{hours.days}: {hours.opens}–{hours.closes}</span></p>)}</div><div className="contact-actions">{channels.map((channel) => { const Icon = icons[channel.kind]; return <a className={channel.primary ? 'button' : 'button button-outline'} href={channel.href} key={channel.kind + channel.href}><Icon size={17}/>{channel.label}</a>})}</div>{!channels.length && <p className="contact-pending">Os canais de atendimento serão publicados após confirmação. Nenhum canal inativo é exibido.</p>}</div><div className="contact-art" aria-hidden="true"><div className="contact-sun"/><div className="contact-pet"><div className="contact-ear left"/><div className="contact-ear right"/><div className="contact-face"><i/><i/></div></div><span className="contact-heart">♥</span><span className="contact-star">✳</span></div></div></Container></section>
+}
